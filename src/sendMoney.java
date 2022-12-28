@@ -11,6 +11,7 @@ public class sendMoney extends JFrame{
     private JLabel sendInfor1;
     private JLabel sendInfo2;
     private JLabel sendMoneyIm;
+    private JButton back;
 
     public sendMoney() {
     add(SendMoney);
@@ -33,6 +34,10 @@ public class sendMoney extends JFrame{
             try {
                 if(Transactions.transfer(Card.id,IBAN, amount)){
                     if (e.getSource() == sendButton) {
+                        mainMenu m = new mainMenu();
+                        JComponent comp = (JComponent) e.getSource();
+                        Window win = SwingUtilities.getWindowAncestor(comp);
+                        win.dispose();
 
                     }
 
@@ -46,7 +51,16 @@ public class sendMoney extends JFrame{
 
         }
     });
-}
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainMenu m = new mainMenu();
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
+            }
+        });
+    }
 
     private void createUIComponents() {
         // TODO: place custom component creation code here

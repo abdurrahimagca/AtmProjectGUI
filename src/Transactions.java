@@ -1,29 +1,29 @@
 import javax.swing.*;
+import java.sql.ResultSet;
+
 
 public class Transactions {
 
-    //hata: eger fonksiyon exception verirse sorun olabilir
+
     private static double stringToDouble(String text) {
-        //handle in 5 usages that if catch statement works, return an escape integer
+
         double val = 0;
         try {
 
             val = Double.parseDouble(text);
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ignored) {
 
         }
         return val;
     }
 
 
-
     public static boolean withdraw(String id, double amount) {
         double deposit;
         if (amount < 10 || amount > 1000) {
 
-            JOptionPane.showMessageDialog(null,"Cekilecek tutar 10'dan kucuk 1000'den buyuk olamaz!");
+            JOptionPane.showMessageDialog(null, "Cekilecek tutar 10'dan kucuk 1000'den buyuk olamaz!");
             return false;
         }
 
@@ -39,14 +39,14 @@ public class Transactions {
         }
 
         if (deposit < amount) {
-                     JOptionPane.showMessageDialog(null,"cekilmek istenen tutar bakiyeden fazla.. ");
+            JOptionPane.showMessageDialog(null, "cekilmek istenen tutar bakiyeden fazla.. ");
             return false;
         } else if (deposit > amount) {
             deposit = deposit - amount;
             temp = String.valueOf(deposit);
 
             SqlQuery.UpdateData("UPDATE clients SET deposit=" + temp + "WHERE id=" + id);
-            JOptionPane.showMessageDialog(null,"Para Cekme Basarili. Guncel bakiyeniz: " + temp);
+            JOptionPane.showMessageDialog(null, "Para Cekme Basarili. Guncel bakiyeniz: " + temp);
             return true;
         }
         return false;
@@ -58,7 +58,7 @@ public class Transactions {
 
         String temp = SqlQuery.StringGetSQL("SELECT deposit FROM clients WHERE id=" + id, "deposit");
         if (amount < 1) {
-            JOptionPane.showMessageDialog(null,"Yatiralacak tutar sifirdan kucuk olamaz!");
+            JOptionPane.showMessageDialog(null, "Yatiralacak tutar sifirdan kucuk olamaz!");
 
             return false;
         }
@@ -68,17 +68,27 @@ public class Transactions {
         deposit = deposit + amount;
         temp = String.valueOf(deposit);
         SqlQuery.UpdateData("UPDATE clients SET deposit=" + temp + "WHERE id=" + id);
-        JOptionPane.showMessageDialog(null,"Para Yatirma islemi basarili. Guncel Bakiyeniz:  "+ temp);
+        JOptionPane.showMessageDialog(null, "Para Yatirma islemi basarili. Guncel Bakiyeniz:  " + temp);
 
         return true;
 
     }
 
 
-
     public static boolean transfer(String id, String IBAN, double amount) {
-        //todo: iban uzunlugunun kontrol edilmesi gerekli
-        if(IBAN.length()!=24) return false;
+
+        if (IBAN.length() != 24) {
+            JOptionPane.showMessageDialog(null, "IBAN uzunluğu 24 haneli olmalıdır.");
+            return false;
+        }
+
+        ResultSet rs = SqlQuery.getResult("SELECT id WHERE IBAN LIKE '%" + IBAN + "'");
+
+        if (rs == null) {
+            JOptionPane.showMessageDialog(null, "Yanlış bir IBAN girdiniz.");
+            return false;
+
+        }
 
         double depositSender, depositReceiver;
         String temp = SqlQuery.StringGetSQL("SELECT deposit FROM clients WHERE id=" + id, "deposit");
@@ -86,12 +96,12 @@ public class Transactions {
         depositSender = depositSender - amount;
         if (amount < 1) {
 
-            JOptionPane.showMessageDialog(null,"Gondereceginiz tutar 0'dan buyuk olmalıdır. ");
+            JOptionPane.showMessageDialog(null, "Gondereceginiz tutar 0'dan buyuk olmalıdır. ");
             return false;
         }
         if (depositSender < amount) {
 
-            JOptionPane.showMessageDialog(null,"Bakiye yetersiz. ");
+            JOptionPane.showMessageDialog(null, "Bakiye yetersiz. ");
             return false;
         }
         temp = SqlQuery.StringGetSQL("SELECT deposit FROM clients WHERE IBAN LIKE '%" + IBAN + "'", "deposit");
@@ -104,7 +114,7 @@ public class Transactions {
 
         temp = String.valueOf(depositSender);
         SqlQuery.UpdateData("UPDATE clients SET deposit=" + temp + "WHERE id=" + id);
-        JOptionPane.showMessageDialog(null,"Para gonderme basarili. Guncel Bakiyeniz: "+ temp);
+        JOptionPane.showMessageDialog(null, "Para gonderme basarili. Guncel Bakiyeniz: " + temp);
         return true;
 
     }
@@ -118,7 +128,7 @@ public class Transactions {
         deposit = stringToDouble(temp);
         if (amount > deposit) {
 
-            JOptionPane.showMessageDialog(null,"Odemek istediginiz tutar bakiyenizden fazla olamaz. ");
+            JOptionPane.showMessageDialog(null, "Odemek istediginiz tutar bakiyenizden fazla olamaz. ");
             return false;
         } else if (amount > debt) {
 
@@ -128,18 +138,17 @@ public class Transactions {
             SqlQuery.UpdateData("UPDATE clients SET deposit=" + temp + "WHERE id=" + id);
             SqlQuery.UpdateData("UPDATE clients SET debt=0 WHERE id=" + id);
             System.out.println();
-            JOptionPane.showMessageDialog(null,"girdiginiz tutar borcunuzdan fazladir, borcunuz: " + debt + " TL ödenmistir. ");
+            JOptionPane.showMessageDialog(null, "girdiginiz tutar borcunuzdan fazladir, borcunuz: " + debt + " TL ödenmistir. ");
             return true;
 
         } else {
             deposit = deposit - amount;
-            //todo: handle if temp is not a string
             temp = String.valueOf(deposit);
             SqlQuery.UpdateData("UPDATE clients SET deposit=" + temp + "WHERE id=" + id);
             debt = debt - amount;
             temp = String.valueOf(debt);
             SqlQuery.UpdateData("UPDATE clients SET debt=" + temp + "WHERE id=" + id);
-            JOptionPane.showMessageDialog(null,"Borc odeme basarili kalan borcunuz: " + debt );
+            JOptionPane.showMessageDialog(null, "Borc odeme basarili kalan borcunuz: " + debt);
             return true;
         }
     }

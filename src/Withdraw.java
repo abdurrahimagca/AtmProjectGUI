@@ -9,11 +9,12 @@ public class Withdraw extends JFrame {
     private JPanel withDraw;
     private JLabel infoWithdrawText;
     private JLabel withdrawIm;
+    private JButton back;
 
     public Withdraw(){
 
         add(withDraw);
-     
+
         setSize(500,500);
         withDraw.setBackground(new Color(116,68,70));
         infoWithdrawText.setForeground(Color.white);
@@ -39,8 +40,10 @@ public class Withdraw extends JFrame {
                     if (Transactions.withdraw(Card.id, amount)) {
 
                         if (e.getSource() == WithdrawButton) {
-                            mainMenu.message= "Guncel Bakiyeniz: " + SqlQuery.StringGetSQL("SELECT deposit FROM clients WHERE id=" + Card.id,
-                                    "deposit");
+                            mainMenu m = new mainMenu();
+                            JComponent comp = (JComponent) e.getSource();
+                            Window win = SwingUtilities.getWindowAncestor(comp);
+                            win.dispose();
 
                         }
                     }
@@ -48,6 +51,16 @@ public class Withdraw extends JFrame {
                     System.out.println("hata37witdraw");
                     ex.printStackTrace();
                 }
+
+            }
+        });
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainMenu m = new mainMenu();
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
 
             }
         });

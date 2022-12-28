@@ -9,6 +9,7 @@ public class payoffDebt extends JFrame{
     private JButton payOffDebt;
     private JLabel payoffImage;
     private JLabel payoffText;
+    private JButton back;
 
     public payoffDebt(){
         add(Debt);
@@ -17,6 +18,7 @@ public class payoffDebt extends JFrame{
         payoffText.setForeground(Color.white);
         payoffText.setText("Borcunuz " + SqlQuery.StringGetSQL("SELECT debt FROM clients WHERE id=" + Card.id,
                 "debt"));
+        back.setSize(10,10);
         setVisible(true);
 
 
@@ -37,6 +39,10 @@ public class payoffDebt extends JFrame{
                 try {
                     if (Transactions.payOffDebt(Card.id,amount)) {
                         if (e.getSource() == payOffDebt) {
+                            mainMenu m = new mainMenu();
+                            JComponent comp = (JComponent) e.getSource();
+                            Window win = SwingUtilities.getWindowAncestor(comp);
+                            win.dispose();
 
                         }
                     }
@@ -44,6 +50,26 @@ public class payoffDebt extends JFrame{
                     System.out.println("hata37witdraw");
                     ex.printStackTrace();
                 }
+
+            }
+        });
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainMenu m = new mainMenu();
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
+
+            }
+        });
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainMenu m = new mainMenu();
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
 
             }
         });

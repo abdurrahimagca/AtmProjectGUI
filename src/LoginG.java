@@ -65,6 +65,10 @@ public class LoginG extends  JFrame{
                             if (e.getSource() == signin) {
 
                                 mainMenu m = new mainMenu();
+                                JComponent comp = (JComponent) e.getSource();
+                                Window win = SwingUtilities.getWindowAncestor(comp);
+                                win.dispose();
+
 
                             }
                         }

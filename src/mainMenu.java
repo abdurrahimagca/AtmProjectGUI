@@ -14,6 +14,7 @@ public class mainMenu extends  JFrame {
     private JLabel welcomeText;
     private JLabel showBalanceText;
     private JLabel SurnameText;
+    private JButton Exit;
     private JLabel withdrawMoneyImage;
     private JLabel ImageDeposit;
     private JPanel ImageMain;
@@ -40,6 +41,9 @@ public class mainMenu extends  JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == wDraw) {
                     Withdraw withdraw = new Withdraw();
+                    JComponent comp = (JComponent) e.getSource();
+                    Window win = SwingUtilities.getWindowAncestor(comp);
+                    win.dispose();
                 }
             }
         });
@@ -48,6 +52,9 @@ public class mainMenu extends  JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == deposit) {
                     Deposit depPage = new Deposit();
+                    JComponent comp = (JComponent) e.getSource();
+                    Window win = SwingUtilities.getWindowAncestor(comp);
+                    win.dispose();
 
                 }
 
@@ -58,6 +65,9 @@ public class mainMenu extends  JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource() == SendMoney) {
                     sendMoney s = new sendMoney();
+                    JComponent comp = (JComponent) e.getSource();
+                    Window win = SwingUtilities.getWindowAncestor(comp);
+                    win.dispose();
 
 
                 }
@@ -69,8 +79,17 @@ public class mainMenu extends  JFrame {
                 if (e.getSource() == payDebt) {
 
                     payoffDebt p = new payoffDebt();
+                    JComponent comp = (JComponent) e.getSource();
+                    Window win = SwingUtilities.getWindowAncestor(comp);
+                    win.dispose();
 
                 }
+            }
+        });
+        Exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
             }
         });
     }
