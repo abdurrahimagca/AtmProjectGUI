@@ -20,7 +20,7 @@ public class SqlQuery {
 
     }
 
-    //todo: fonksiyon bool veri döndürmeli
+
     public static void UpdateData(String query) {
 
         try {
