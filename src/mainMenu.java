@@ -36,62 +36,45 @@ public class mainMenu extends  JFrame {
        setVisible(true);
 
 
-        wDraw.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == wDraw) {
-                    Withdraw withdraw = new Withdraw();
-                    JComponent comp = (JComponent) e.getSource();
-                    Window win = SwingUtilities.getWindowAncestor(comp);
-                    win.dispose();
-                }
+        wDraw.addActionListener(e -> {
+            if (e.getSource() == wDraw) {
+                new Withdraw();
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
             }
         });
-        deposit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == deposit) {
-                    Deposit depPage = new Deposit();
-                    JComponent comp = (JComponent) e.getSource();
-                    Window win = SwingUtilities.getWindowAncestor(comp);
-                    win.dispose();
+        deposit.addActionListener(e -> {
+            if (e.getSource() == deposit) {
+                new Deposit();
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
 
-                }
+            }
+
+        });
+        SendMoney.addActionListener(e -> {
+            if (e.getSource() == SendMoney) {
+                new sendMoney();
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
+
 
             }
         });
-        SendMoney.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == SendMoney) {
-                    sendMoney s = new sendMoney();
-                    JComponent comp = (JComponent) e.getSource();
-                    Window win = SwingUtilities.getWindowAncestor(comp);
-                    win.dispose();
+        payDebt.addActionListener(e -> {
+            if (e.getSource() == payDebt) {
 
+                new payoffDebt();
+                JComponent comp = (JComponent) e.getSource();
+                Window win = SwingUtilities.getWindowAncestor(comp);
+                win.dispose();
 
-                }
             }
         });
-        payDebt.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == payDebt) {
-
-                    payoffDebt p = new payoffDebt();
-                    JComponent comp = (JComponent) e.getSource();
-                    Window win = SwingUtilities.getWindowAncestor(comp);
-                    win.dispose();
-
-                }
-            }
-        });
-        Exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        Exit.addActionListener(e -> System.exit(0));
     }
 
 

@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class Withdraw extends JFrame {
     private JTextField WithDrawAmount;
@@ -22,47 +21,41 @@ public class Withdraw extends JFrame {
 
 
 
-        WithdrawButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               String tempamount = WithDrawAmount.getText();
-                System.out.println(tempamount);
+        WithdrawButton.addActionListener(e -> {
+           String tempamount = WithDrawAmount.getText();
+            System.out.println(tempamount);
 
-                double amount=0.0;
-                try {
+            double amount=0.0;
+            try {
 
-                    amount = Double.parseDouble(tempamount);
+                amount = Double.parseDouble(tempamount);
 
-                } catch (Exception ex) {
-                    System.out.println("hata29satır");
-                }
-                try {
-                    if (Transactions.withdraw(Card.id, amount)) {
+            } catch (Exception ex) {
+                System.out.println("hata29satır");
+            }
+            try {
+                if (Transactions.withdraw(Card.id, amount)) {
 
-                        if (e.getSource() == WithdrawButton) {
-                            mainMenu m = new mainMenu();
-                            JComponent comp = (JComponent) e.getSource();
-                            Window win = SwingUtilities.getWindowAncestor(comp);
-                            win.dispose();
+                    if (e.getSource() == WithdrawButton) {
+                        new mainMenu();
+                        JComponent comp = (JComponent) e.getSource();
+                        Window win = SwingUtilities.getWindowAncestor(comp);
+                        win.dispose();
 
-                        }
                     }
-                }catch (Exception ex){
-                    System.out.println("hata37witdraw");
-                    ex.printStackTrace();
                 }
-
+            }catch (Exception ex){
+                System.out.println("hata37witdraw");
+                ex.printStackTrace();
             }
+
         });
-        back.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainMenu m = new mainMenu();
-                JComponent comp = (JComponent) e.getSource();
-                Window win = SwingUtilities.getWindowAncestor(comp);
-                win.dispose();
+        back.addActionListener(e -> {
+            new mainMenu();
+            JComponent comp = (JComponent) e.getSource();
+            Window win = SwingUtilities.getWindowAncestor(comp);
+            win.dispose();
 
-            }
         });
     }
 

@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
+
 
 public class LoginG extends  JFrame{
     private JTextField cardNum;
@@ -26,59 +24,46 @@ public class LoginG extends  JFrame{
 
 
 
-        signin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String cardnum = cardNum.getText();
-                String pin = new String(pass.getPassword());
-                Card card = new Card(cardnum);
-                Card.setPin(pin);
-                boolean passToSecPart = true;
+        signin.addActionListener(e -> {
+            String cardnum = cardNum.getText();
+            String pin = new String(pass.getPassword());
+            Card card = new Card(cardnum);
+            Card.setPin(pin);
+            boolean passToSecPart = true;
 
 
-                try {
-                    if(!Login.isCardValid()){
+            if(!Login.isCardValid()){
 
 
-                        cardNum.setText("");
-                        pass.setText("");
-                        passToSecPart = false;
+                cardNum.setText("");
+                pass.setText("");
+                passToSecPart = false;
 
 
-                    } else if (Login.isCardValid() && !Login.isPinTrue()) {
+            } else if (Login.isCardValid() && !Login.isPinTrue()) {
 
-                        cardNum.setText(cardnum);
-                        pass.setText("");
-                        passToSecPart = false;
-
-                    }
-
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-
-                if(passToSecPart) {
-                    try {
-                        if (Login.isCardValid() && Login.isPinTrue()) {
-                            Card.setId();
-
-                            if (e.getSource() == signin) {
-
-                                mainMenu m = new mainMenu();
-                                JComponent comp = (JComponent) e.getSource();
-                                Window win = SwingUtilities.getWindowAncestor(comp);
-                                win.dispose();
-
-
-                            }
-                        }
-                    } catch (SQLException ex) {
-
-                        throw new RuntimeException(ex);
-                    }
-                }
+                cardNum.setText(cardnum);
+                pass.setText("");
+                passToSecPart = false;
 
             }
+
+            if(passToSecPart) {
+                if (Login.isCardValid() && Login.isPinTrue()) {
+                    Card.setId();
+
+                    if (e.getSource() == signin) {
+
+                        new mainMenu();
+                        JComponent comp = (JComponent) e.getSource();
+                        Window win = SwingUtilities.getWindowAncestor(comp);
+                        win.dispose();
+
+
+                    }
+                }
+            }
+
         });
     }
 

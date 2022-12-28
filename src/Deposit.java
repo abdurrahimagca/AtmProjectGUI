@@ -34,7 +34,7 @@ public class Deposit extends JFrame{
             try {
                 if (Transactions.deposit(Card.id, amount)) {
                     if (e.getSource() == depositButton) {
-                        mainMenu m = new mainMenu();
+                        new mainMenu();
                         JComponent comp = (JComponent) e.getSource();
                         Window win = SwingUtilities.getWindowAncestor(comp);
                         win.dispose();
@@ -50,7 +50,7 @@ public class Deposit extends JFrame{
         back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainMenu m = new mainMenu();
+                new mainMenu();
                 JComponent comp = (JComponent) e.getSource();
                 Window win = SwingUtilities.getWindowAncestor(comp);
                 win.dispose();

@@ -1,5 +1,5 @@
 import javax.swing.*;
-import java.sql.ResultSet;
+import java.sql.*;
 
 
 public class Transactions {
@@ -75,20 +75,27 @@ public class Transactions {
     }
 
 
-    public static boolean transfer(String id, String IBAN, double amount) {
+    public static boolean transfer(String id, String IBAN, double amount) throws SQLException {
 
         if (IBAN.length() != 24) {
             JOptionPane.showMessageDialog(null, "IBAN uzunluğu 24 haneli olmalıdır.");
             return false;
         }
 
-        ResultSet rs = SqlQuery.getResult("SELECT id WHERE IBAN LIKE '%" + IBAN + "'");
+        ResultSet rs = SqlQuery.getResult("SELECT id FROM clients WHERE IBAN='TR" + IBAN+"'");
 
-        if (rs == null) {
-            JOptionPane.showMessageDialog(null, "Yanlış bir IBAN girdiniz.");
-            return false;
 
-        }
+      if(!rs.next()){
+          JOptionPane.showMessageDialog(null,"Yanlış IBAN");
+          return false;
+      }
+
+      String recevierID = SqlQuery.StringGetSQL("SELECT id FROM clients WHERE IBAN='TR" + IBAN+"'", "id");
+      if(recevierID.equals(id)){
+          JOptionPane.showMessageDialog(null,"Kendinize transfer yapamazsınız. ");
+          return false;
+      }
+
 
         double depositSender, depositReceiver;
         String temp = SqlQuery.StringGetSQL("SELECT deposit FROM clients WHERE id=" + id, "deposit");
@@ -104,13 +111,13 @@ public class Transactions {
             JOptionPane.showMessageDialog(null, "Bakiye yetersiz. ");
             return false;
         }
-        temp = SqlQuery.StringGetSQL("SELECT deposit FROM clients WHERE IBAN LIKE '%" + IBAN + "'", "deposit");
+        temp = SqlQuery.StringGetSQL("SELECT deposit FROM clients WHERE IBAN='TR" + IBAN + "'", "deposit");
         depositReceiver = stringToDouble(temp);
 
         depositReceiver = depositReceiver + amount;
 
         temp = String.valueOf(depositReceiver);
-        SqlQuery.UpdateData("UPDATE clients SET deposit=" + temp + " WHERE IBAN LIKE '%" + IBAN + "'");
+        SqlQuery.UpdateData("UPDATE clients SET deposit=" + temp + " WHERE IBAN='TR" + IBAN + "'");
 
         temp = String.valueOf(depositSender);
         SqlQuery.UpdateData("UPDATE clients SET deposit=" + temp + "WHERE id=" + id);

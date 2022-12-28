@@ -5,12 +5,11 @@ public class Card {
     protected static String cardNum;
 
 
-
     protected static String pin;
 
     public Card(String cardNum) {
-        this.cardNum = cardNum;
-        this.pin = "0000";
+        Card.cardNum = cardNum;
+        Card.pin = "0000";
 
     }
 
@@ -19,26 +18,19 @@ public class Card {
     }
 
 
-    public static String getCardNum() {
-        return cardNum;
-    }
-
-    public static String getPin() {
-        return pin;
-    }
-
     public static String id;
 
 
-
-   public static void setId()  {
+    public static void setId() {
 
         ResultSet rs = SqlQuery.getResult(("SELECT id FROM clients WHERE CardNum=" + cardNum));
         try {
-            while (rs.next()) {
-                id = rs.getString("id");
+            if (rs != null) {
+                while (rs.next()) {
+                    id = rs.getString("id");
+                }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Kullanici bulunamadi ERR39");
             System.exit(2);
         }

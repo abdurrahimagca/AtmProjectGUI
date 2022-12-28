@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+
 
 public class Login extends Card {
 
@@ -9,14 +9,10 @@ public class Login extends Card {
         super(cardNum);
     }
 
-    public static boolean isCardValid() throws SQLException {
+    public static boolean isCardValid(){
         ResultSet checkRs = SqlQuery.getResult(("SELECT id FROM clients WHERE CardNum=" + cardNum));
 
-        while (checkRs.next()) {
-            return true;
-        }
-
-        return false;
+        return checkRs != null;
 
 
     }
@@ -33,7 +29,7 @@ public class Login extends Card {
             return false;
         }
         try {
-            int x = Integer.parseInt(pin);
+            Integer.parseInt(pin);
         } catch (Exception e) {
 
             JOptionPane.showMessageDialog(null,"Pin rakamlardan olusmalidir. ");
