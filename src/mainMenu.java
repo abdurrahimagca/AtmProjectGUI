@@ -22,7 +22,7 @@ public class mainMenu extends  JFrame {
 
     public mainMenu() {
         add(mainMenu);
-        setSize(500,500);
+        setSize(600,600);
        mainMenu.setBackground(new Color(116, 68, 70));
        menuText.setForeground(Color.white);
        welcomeText.setText("Hoşgeldiniz Sn. " + SqlQuery.StringGetSQL("SELECT Name FROM clients WHERE id=" + Card.id, "Name"));
